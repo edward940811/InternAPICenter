@@ -1,15 +1,35 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using ESHClouds.ApiCenter.Enums;
+using ESHClouds.ApiCenter.Filters;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ESHClouds.ApiCenter.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class PingController : ControllerBase
     {
+        private ClaimsIdentity _identity;
+        public PingController(ClaimsIdentity identity)
+        {
+            _identity = identity;
+        }
+        [HttpGet("Ping")]
+
+        [AuthorizationFilter( )]
+
+        public ActionResult<string> Ping()
+        {
+            if (_identity.Claims.Any())
+            {
+                return "Validation Ok";
+            }
+            return "Validation Fail";
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
