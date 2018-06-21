@@ -11,8 +11,6 @@ using Risk.API.Helper;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using ESHClouds.ApiCenter.StoreHouse.AuthorizationHandler;
-using ESHClouds.ApiCenter.StoreHouse.PolicyRequirements;
 using Microsoft.AspNetCore.Authorization;
 
 namespace ESHClouds.ApiCenter
@@ -64,15 +62,7 @@ namespace ESHClouds.ApiCenter
                 o.RequireHttpsMetadata = false;
                 o.TokenRetriever += CustomerTokenRetrieval.MixHeaderQuerystring();
             });
-            //Authorization
-            services.AddAuthorization(opt =>
-            {
-                opt.AddPolicy("PlugInAuthoriz", policy =>
-                {
-                    policy.Requirements.Add(new PlugInPolicyRequirement());
-                });
-            });
-
+             
             services.Configure<ConnectionStringsConfig>
                 (Configuration.GetSection("ConnectionStrings"));
 
@@ -81,7 +71,6 @@ namespace ESHClouds.ApiCenter
             //Modules
             services.AddScoped<CompanyPlugInService, CompanyPlugInService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IAuthorizationHandler, PlugInHandler>();
             services.AddScoped<ClaimsIdentity, ClaimsIdentity>(
                 (ctx) =>
                 {
