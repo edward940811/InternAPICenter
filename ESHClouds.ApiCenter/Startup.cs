@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using ESHClouds.ApiCenter.Filters;
+﻿using ESHClouds.ApiCenter.Service;
+using ESHClouds.ApiCenter.StoreHouse.Model;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Risk.API.Helper;
-using IdentityServer4.AccessTokenValidation;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using ESHClouds.ApiCenter.StoreHouse.AuthorizationHandler;
+using ESHClouds.ApiCenter.StoreHouse.PolicyRequirements;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ESHClouds.ApiCenter
 {
@@ -34,12 +31,12 @@ namespace ESHClouds.ApiCenter
         {
             services.AddMvc(config =>
                 {
-//                    config.Filters.Add(new ExceptionFilter());
-                   // config.Filters.Add(new AuthorizationFilter());
+                    //                    config.Filters.Add(new ExceptionFilter());
+                    // config.Filters.Add(new AuthorizationFilter());
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-
+            //Authentication
             services.AddAuthentication(o =>
             {
                 o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -67,10 +64,24 @@ namespace ESHClouds.ApiCenter
                 o.RequireHttpsMetadata = false;
                 o.TokenRetriever += CustomerTokenRetrieval.MixHeaderQuerystring();
             });
+            //Authorization
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("PlugInAuthoriz", policy =>
+                {
+                    policy.Requirements.Add(new PlugInPolicyRequirement());
+                });
+            });
 
+            services.Configure<ConnectionStringsConfig>
+                (Configuration.GetSection("ConnectionStrings"));
 
+            //Authorization handlers
+            //services.AddScoped<IAuthorizationHandler,CustomAuthorizationHandler>();
             //Modules
+            services.AddScoped<CompanyPlugInService, CompanyPlugInService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IAuthorizationHandler, PlugInHandler>();
             services.AddScoped<ClaimsIdentity, ClaimsIdentity>(
                 (ctx) =>
                 {
@@ -79,14 +90,11 @@ namespace ESHClouds.ApiCenter
                     return identity;
                 }
             );
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
             app.UseAuthentication();
 
             if (env.IsDevelopment() || env.IsEnvironment("Local"))
@@ -100,7 +108,6 @@ namespace ESHClouds.ApiCenter
 
             //app.UseHttpsRedirection();
             app.UseMvc();
-           
 
             //app.UseMvc(routes =>
             //{

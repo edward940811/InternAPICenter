@@ -17,15 +17,16 @@ namespace ESHClouds.ApiCenter.Controllers
         {
             _identity = identity;
         }
+        //在esh_Auth資料庫裡的CompanyPlugIn資料表
+        //該公司要符合該項產品、公司代碼及PlugInId為LegalSearch才能成功進來本方法
         [HttpGet("Ping")]
-
-        [AuthorizationFilter( )]
-
+        [AuthorizationFilter("LegalSearch")]
         public ActionResult<string> Ping()
         {
             if (_identity.Claims.Any())
             {
-                return "Validation Ok";
+               
+                return "Validation Ok" + nameof(LegalRoleEnum.主管);
             }
             return "Validation Fail";
         }

@@ -9,13 +9,12 @@ namespace ESHClouds.ApiCenter.Filters
 {
     public class AuthorizationFilterAttribute : TypeFilterAttribute
     {
-        
-
-        public AuthorizationFilterAttribute(bool isPass) : base(typeof(AuthorizationFilter))
+        public AuthorizationFilterAttribute(string plugInId) 
+            : base(typeof(AuthorizationFilter))
         {
             Arguments = new object[]
             {
-                isPass
+                plugInId
             };
         }
     }
