@@ -13,7 +13,7 @@ namespace ESHClouds.ApiCenter.Filters
     {
         private readonly string _plugInId;
         private readonly CompanyPlugInService _plugInService;
-        public AuthorizationFilter(CompanyPlugInService plugService, string plugInId)
+        public AuthorizationFilter(string plugInId, CompanyPlugInService plugService)
         {
             _plugInId = plugInId;
             _plugInService = plugService;
