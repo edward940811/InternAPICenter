@@ -15,6 +15,7 @@ namespace ESHClouds.ApiCenter.Filters
             Arguments = new object[]
             {
                 plugInId
+
             };
         }
     }

@@ -17,11 +17,11 @@ namespace ESHClouds.ApiCenter.Controllers
         {
             _identity = identity;
         }
-        //在esh_Auth資料庫裡的CompanyPlugIn資料表
-        //該公司要符合該項產品、公司代碼及PlugInId為LegalSearch才能成功進來本方法
-        [HttpGet("Ping")]
+
+        [Route("legal")]
+        [HttpPost]
         [AuthorizationFilter("LegalSearch")]
-        public ActionResult<string> Ping()
+        public ActionResult<string> PingLegal()
         {
             if (_identity.Claims.Any())
             {
@@ -31,36 +31,10 @@ namespace ESHClouds.ApiCenter.Controllers
             return "Validation Fail";
         }
 
-        // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<string> Ping()
         {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return "OK";
         }
     }
 }
