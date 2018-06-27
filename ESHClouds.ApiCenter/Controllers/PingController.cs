@@ -5,6 +5,8 @@ using System.Security.Claims;
 using ESHClouds.ApiCenter.Enums;
 using ESHClouds.ApiCenter.Filters;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Protocols;
+using System.Configuration;
 
 namespace ESHClouds.ApiCenter.Controllers
 {
@@ -12,6 +14,7 @@ namespace ESHClouds.ApiCenter.Controllers
     [ApiController]
     public class PingController : ControllerBase
     {
+    
         private ClaimsIdentity _identity;
         public PingController(ClaimsIdentity identity)
         {
