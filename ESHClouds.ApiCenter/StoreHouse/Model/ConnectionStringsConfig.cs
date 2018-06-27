@@ -15,4 +15,6 @@ namespace ESHClouds.ApiCenter.StoreHouse.Model
         public string LegalDatabase { get; set; }
         public string ChemicalDatabase { get; set; }
     }
+
+   
 }

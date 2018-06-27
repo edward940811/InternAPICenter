@@ -1,4 +1,5 @@
-﻿using ESHClouds.ApiCenter.Service;
+﻿using System.Configuration;
+using ESHClouds.ApiCenter.Service;
 using ESHClouds.ApiCenter.StoreHouse.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Risk.API.Helper;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
@@ -66,11 +68,17 @@ namespace ESHClouds.ApiCenter
             services.Configure<ConnectionStringsConfig>
                 (Configuration.GetSection("ConnectionStrings"));
 
+            DotNetCoreConnectionStringsConfig.LegalDatabase =
+                Configuration.GetSection("ConnectionStrings:LegalDatabase").Value;
+
+            Encoding
+                .RegisterProvider(CodePagesEncodingProvider.Instance);
             //Authorization handlers
             //services.AddScoped<IAuthorizationHandler,CustomAuthorizationHandler>();
             //Modules
             services.AddScoped<CompanyPlugInService, CompanyPlugInService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            
             services.AddScoped<ClaimsIdentity, ClaimsIdentity>(
                 (ctx) =>
                 {
