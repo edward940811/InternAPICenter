@@ -9,6 +9,7 @@ using ESHClouds.ApiCenter.StoreHouse.Model;
 using Microsoft.AspNetCore.Cors;
 using System.Configuration;
 using System.Data.SqlClient;
+using ESHClouds.ApiCenter.Service;
 using Dapper;
 
 namespace ESHClouds.ApiCenter.Controllers
@@ -19,11 +20,13 @@ namespace ESHClouds.ApiCenter.Controllers
     public class BulletineController : ControllerBase
     {
         //temp
-        string ConnectionString = ConfigurationManager.ConnectionStrings["TodoListDB"].ConnectionString;
+        private IBulletineService _service;
+        //string ConnectionString = ConfigurationManager.ConnectionStrings["TodoListDB"].ConnectionString;     
 
         private readonly BulletineContext _context;
-        public BulletineController(BulletineContext context)
+        public BulletineController(BulletineContext context, IBulletineService service)
         {
+            this._service = service;
             _context = context;
 
             if(_context.Bulletines.Count() == 0)
@@ -35,14 +38,8 @@ namespace ESHClouds.ApiCenter.Controllers
         [HttpGet]
         public ActionResult<List<Bulletine>> GetAll()
         {
-            List<Bulletine> Bulletines = new List<Bulletine>();
-            var sql = "Select * From [TodoList].[dbo].[TodoListTable]";
-            var dynamicParams = new DynamicParameters();
-            using (var con = new SqlConnection(this.ConnectionString))
-            {
-                Bulletines = con.Query<Bulletine>(sql, dynamicParams).ToList();
-            }
-            return _context.Bulletines.ToList();
+            return _service.getTodoList();
+            //return _context.Bulletines.ToList();
         }
         [HttpGet("{id}", Name = "GetBulletine")]
         public ActionResult<Bulletine> GetById(int id)

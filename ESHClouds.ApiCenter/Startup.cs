@@ -88,6 +88,7 @@ namespace ESHClouds.ApiCenter
             //Modules
             services.AddScoped<CompanyPlugInService, CompanyPlugInService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IBulletineService, BulletineService>(); // tell service using Bulletin Service in Interface
             services.AddScoped<ClaimsIdentity, ClaimsIdentity>(
                 (ctx) =>
                 {
