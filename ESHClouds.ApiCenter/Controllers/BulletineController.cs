@@ -49,15 +49,17 @@ namespace ESHClouds.ApiCenter.Controllers
             {
                 return NotFound();
             }
+            GetById(id);
             return item;
         }
         [HttpPost]
-        public IActionResult Create(Bulletine item)
+        public string Create(Bulletine item)
         {
-            _context.Bulletines.Add(item);
-            _context.SaveChanges();
 
-            return CreatedAtRoute("GetBulletine", new { id = item.Id }, item);
+            // _context.Bulletines.Add(item);
+            // _context.SaveChanges();
+            //return CreatedAtRoute("GetBulletine", new { id = item.Id }, item);
+            return _service.addTodoItem(item);
         }
 
     }

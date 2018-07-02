@@ -9,5 +9,8 @@ namespace ESHClouds.ApiCenter.Service
     public interface IBulletineService
     {
         List<Bulletine> getTodoList();
+
+        Bulletine GetById(int id);
+        string addTodoItem(Bulletine bulletine);
     }
 }

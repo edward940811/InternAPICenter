@@ -12,6 +12,7 @@ namespace ESHClouds.ApiCenter.StoreHouse.Model
         public string CompanyId { get; set; }
         public string Module { get; set; }
         public string FileName { get; set; }
+        public string Name { get; set; }
         public string UserId { get; set; }
         public string Top { get; set; }
         public string Type { get; set; }
