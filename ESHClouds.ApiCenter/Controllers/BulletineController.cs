@@ -61,6 +61,10 @@ namespace ESHClouds.ApiCenter.Controllers
             //return CreatedAtRoute("GetBulletine", new { id = item.Id }, item);
             return _service.addTodoItem(item);
         }
-
+        [HttpPut]
+        public string updateTodoItem(Bulletine item)
+        {
+            return _service.updateTodoItem(item); 
+        }
     }
 }

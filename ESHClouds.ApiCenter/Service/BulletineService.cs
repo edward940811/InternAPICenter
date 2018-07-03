@@ -49,5 +49,21 @@ namespace ESHClouds.ApiCenter.Service
             TodoItem = todoListconn.Query<Bulletine>(sql, new { Id = id }).FirstOrDefault();
             return TodoItem;
         }
+
+        public string updateTodoItem(Bulletine bulletine)
+        {
+            Bulletine TodoItem = bulletine;
+            var updatedTodoItem = todoListconn.QuerySingleOrDefault<int>("[dbo].[UpdateTodoList]", new
+            {
+                Id = bulletine.Id,
+                Name = bulletine.Name,
+                Description = bulletine.Description,
+                Type = bulletine.Type,
+                Top = bulletine.Top,
+                Filename = bulletine.FileName,
+                Date = bulletine.Date
+            }, commandType: CommandType.StoredProcedure);
+            return null;
+        }
     }
 }
