@@ -65,5 +65,13 @@ namespace ESHClouds.ApiCenter.Service
             }, commandType: CommandType.StoredProcedure);
             return null;
         }
+        public string deleteTodoItem(int id)
+        {
+            var updatedTodoItem = todoListconn.QuerySingleOrDefault<int>("[dbo].[DeleteTodoList]", new
+            {
+                Id = id
+            }, commandType: CommandType.StoredProcedure);
+            return null;
+        }
     }
 }

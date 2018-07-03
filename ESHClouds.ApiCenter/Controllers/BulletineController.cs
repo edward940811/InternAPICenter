@@ -66,5 +66,10 @@ namespace ESHClouds.ApiCenter.Controllers
         {
             return _service.updateTodoItem(item); 
         }
+        [HttpDelete("{id}")]
+        public string deleteTodoItem(int id)
+        {
+            return _service.deleteTodoItem(id);
+        }
     }
 }

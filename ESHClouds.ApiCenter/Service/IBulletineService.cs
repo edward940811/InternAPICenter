@@ -13,5 +13,6 @@ namespace ESHClouds.ApiCenter.Service
         Bulletine GetById(int id);
         string addTodoItem(Bulletine bulletine);
         string updateTodoItem(Bulletine bulletine);
+        string deleteTodoItem(int id);
     }
 }
