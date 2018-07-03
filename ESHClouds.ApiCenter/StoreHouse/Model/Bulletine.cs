@@ -18,6 +18,7 @@ namespace ESHClouds.ApiCenter.StoreHouse.Model
         public string Type { get; set; }
         public string Description { get; set; }
         public string Date { get; set; }
+        public Boolean Notify { get; set; }
 
     }
 }

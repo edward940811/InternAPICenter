@@ -37,6 +37,7 @@ namespace ESHClouds.ApiCenter.Service
                 Top = bulletine.Top,
                 Module = bulletine.Module,
                 Filename = bulletine.FileName,
+                Notify = false,
                 Date = bulletine.Date
             }, commandType: CommandType.StoredProcedure);
                            
