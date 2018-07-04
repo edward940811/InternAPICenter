@@ -14,6 +14,7 @@ namespace ESHClouds.ApiCenter.StoreHouse.Model
         public string AuthApiDatabase { get; set; }
         public string LegalDatabase { get; set; }
         public string ChemicalDatabase { get; set; }
-        public string TodoListDatabase { get; set; }
+        public string ESHCloudsAuth { get; set; }
+        public string ESHCloudsCore { get; set; }
     }
 }
