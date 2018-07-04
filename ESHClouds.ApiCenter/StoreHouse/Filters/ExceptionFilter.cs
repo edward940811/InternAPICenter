@@ -53,9 +53,6 @@ namespace ESHClouds.ApiCenter.Filters
             {
                 message.Add(context.Exception.ToString());
                 _logger.Fatal(context.Exception.ToString());
-#if !DEBUG
-ESHCloudNotification.SlackAsync(context.Exception.ToString());
-#endif
             }
 
             var error = new ApiResponse()

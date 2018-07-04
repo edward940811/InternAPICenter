@@ -21,20 +21,20 @@ namespace ESHClouds.ApiCenter.Controllers
             return new List<Bulletine>();
         }
 
-        [HttpGet("{id}", Name = "GetBulletine")]
+        [HttpGet("{id}")]
         public Bulletine Get(int id)
         {
             return new Bulletine();
         }
 
         [HttpPost]
-        public IActionResult Create(Bulletine item)
+        public IActionResult Create([FromBody]Bulletine item)
         {
             return Ok();
         }
 
         [HttpPut]
-        public IActionResult Update(Bulletine item)
+        public IActionResult Update([FromBody]Bulletine item)
         {
             return Ok();
         }

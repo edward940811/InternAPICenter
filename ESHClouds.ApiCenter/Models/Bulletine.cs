@@ -10,7 +10,7 @@ namespace ESHClouds.ApiCenter.Models
     /// </summary>
     public class Bulletine
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string CompanyId { get; set; }
         public string Module { get; set; }
         public string FileName { get; set; }
