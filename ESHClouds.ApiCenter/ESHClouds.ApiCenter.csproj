@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.50.5" />
+    <PackageReference Include="ESHCloud.Base" Version="1.0.21" />
+    <PackageReference Include="ESHCloud.Bulletine" Version="1.0.21" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.6.0" />
     <PackageReference Include="Legal" Version="1.0.11" />
     <PackageReference Include="Legal.LawSearch" Version="1.0.11" />

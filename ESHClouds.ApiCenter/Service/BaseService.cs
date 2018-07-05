@@ -17,7 +17,6 @@ namespace ESHClouds.ApiCenter.Service
         public BaseService(IOptions<ConnectionStringsConfig> cfg)
         {
             conn = new SqlConnection(cfg.Value.AuthApiDatabase);
-            todoListconn = new SqlConnection(cfg.Value.ESHCloudsCore);
         }
     }
 }

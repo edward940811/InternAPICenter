@@ -40,14 +40,11 @@ namespace ESHClouds.ApiCenter
                           .AllowAnyMethod()
                           .AllowCredentials();
                 });
-            });
-            services.AddDbContext<BulletineContext>(opt =>
-            opt.UseInMemoryDatabase("BulletineList"));
+            });        
             
             services.AddMvc(config =>
                 {
-                    //                    config.Filters.Add(new ExceptionFilter());
-                    // config.Filters.Add(new AuthorizationFilter());
+                  
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -88,7 +85,6 @@ namespace ESHClouds.ApiCenter
             //Modules
             services.AddScoped<CompanyPlugInService, CompanyPlugInService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IBulletineService, BulletineService>(); // tell service using Bulletin Service in Interface
             services.AddScoped<ClaimsIdentity, ClaimsIdentity>(
                 (ctx) =>
                 {

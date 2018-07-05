@@ -11,6 +11,8 @@ using System.Configuration;
 using System.Data.SqlClient;
 using ESHClouds.ApiCenter.Service;
 using Dapper;
+using ESHCloud.Bulletine;
+using ESHCloud.Bulletine.ViewModels;
 
 namespace ESHClouds.ApiCenter.Controllers
 {
@@ -19,57 +21,37 @@ namespace ESHClouds.ApiCenter.Controllers
     [ApiController]
     public class BulletineController : ControllerBase
     {
-        //temp
-        private IBulletineService _service;
-        //string ConnectionString = ConfigurationManager.ConnectionStrings["TodoListDB"].ConnectionString;     
-
-        private readonly BulletineContext _context;
-        public BulletineController(BulletineContext context, IBulletineService service)
-        {
-            this._service = service;
-            _context = context;
-
-            if(_context.Bulletines.Count() == 0)
-            {
-                _context.Bulletines.Add(new Bulletine { CompanyId = "12345" });
-                _context.SaveChanges();
-            }
+        BulletineClass _service = new BulletineClass();
+           
+        public BulletineController()
+        {                     
         }
         [HttpGet]
-        public ActionResult<List<Bulletine>> GetAll()
+        public IEnumerable<BulletineViewModel> GetAll()
         {
-            return _service.getTodoList();
-            //return _context.Bulletines.ToList();
+            IEnumerable<BulletineViewModel> List = _service.GetAll();
+            return _service.GetAll();
         }
         [HttpGet("{id}", Name = "GetBulletine")]
-        public ActionResult<Bulletine> GetById(int id)
+        public ActionResult<BulletineViewModel> GetById(int id)
         {
-            var item = _context.Bulletines.Find(id);
-            if (item == null)
-            {
-                return NotFound();
-            }
-            GetById(id);
-            return item;
+            //GetById(id);
+            return null;
         }
         [HttpPost]
-        public string Create(Bulletine item)
+        public string Create(BulletineViewModel item)
         {
-
-            // _context.Bulletines.Add(item);
-            // _context.SaveChanges();
-            //return CreatedAtRoute("GetBulletine", new { id = item.Id }, item);
-            return _service.addTodoItem(item);
+            return _service.Create(item);
         }
         [HttpPut]
-        public string updateTodoItem(Bulletine item)
+        public string updateTodoItem(BulletineViewModel item)
         {
-            return _service.updateTodoItem(item); 
+            return _service.Update(item); 
         }
         [HttpDelete("{id}")]
         public string deleteTodoItem(int id)
         {
-            return _service.deleteTodoItem(id);
+            return _service.Delete(id);
         }
     }
 }
