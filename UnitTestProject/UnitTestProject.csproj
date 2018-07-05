@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ESHCloud.Base" Version="1.0.15" />
-    <PackageReference Include="ESHCloud.Bulletine" Version="1.0.15" />
+    <PackageReference Include="ESHCloud.Base" Version="1.0.16" />
+    <PackageReference Include="ESHCloud.Bulletine" Version="1.0.16" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.2.1" />
     <PackageReference Include="MSTest.TestFramework" Version="1.2.1" />
