@@ -31,7 +31,7 @@ namespace ESHClouds.ApiCenter
         {
             services.AddMvc(config =>
                 {
-                    //                    config.Filters.Add(new ExceptionFilter());
+                    // config.Filters.Add(new ExceptionFilter());
                     // config.Filters.Add(new AuthorizationFilter());
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -64,12 +64,9 @@ namespace ESHClouds.ApiCenter
                 o.RequireHttpsMetadata = false;
                 o.TokenRetriever += CustomerTokenRetrieval.MixHeaderQuerystring();
             });
-             
+
             services.Configure<ConnectionStringsConfig>
                 (Configuration.GetSection("ConnectionStrings"));
-
-            DotNetCoreConnectionStringsConfig.LegalDatabase =
-                Configuration.GetSection("ConnectionStrings:LegalDatabase").Value;
 
             Encoding
                 .RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -78,7 +75,7 @@ namespace ESHClouds.ApiCenter
             //Modules
             services.AddScoped<CompanyPlugInService, CompanyPlugInService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            
+
             services.AddScoped<ClaimsIdentity, ClaimsIdentity>(
                 (ctx) =>
                 {

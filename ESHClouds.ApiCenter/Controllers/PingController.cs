@@ -27,8 +27,6 @@ namespace ESHClouds.ApiCenter.Controllers
         //[AuthorizationFilter("LegalSearch")]
         public ActionResult<string> PingLegal()
         {
-
-
             if (_identity.Claims.Any())
             {
                 var x = User;

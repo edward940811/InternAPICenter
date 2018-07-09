@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ESHClouds.ApiCenter.Controllers
 {
-   
+
     public class BaseController : ControllerBase
     {
         protected string _companyId;
@@ -21,7 +21,7 @@ namespace ESHClouds.ApiCenter.Controllers
 
             if (_identity.Claims.Any())
             {
-                
+
                 try
                 {
                     _companyId = _identity
@@ -39,7 +39,7 @@ namespace ESHClouds.ApiCenter.Controllers
                 }
 
             }
-            
+
         }
     }
 }

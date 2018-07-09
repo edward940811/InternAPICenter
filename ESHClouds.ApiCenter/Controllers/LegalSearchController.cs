@@ -22,48 +22,6 @@ namespace ESHClouds.ApiCenter.Controllers
         {
         }
 
-        [Route("file")]
-        [HttpGet]
-        public IActionResult GetLawFiles([FromQuery]LawSearchCondition condition)
-        {
-            if (condition == null) { return BadRequest("at least one condition"); }
-
-            var service = new LawSearch(_companyId, int.Parse(_userId));
-            List<LawFileVM> lawFiles = service.GetLawFiles(condition);
-            var totalRecords = lawFiles.Count == 0 ? 0 : lawFiles[0].TotalRecords;
-
-            var result = new PagingModel<List<LawFileVM>>()
-            {
-                PageIndex = condition.PageIndex,
-                Data = lawFiles,
-                TotalRecords = totalRecords,
-                TotalPages = (int)Math.Ceiling((float)totalRecords / (float)condition.PageSize)
-            };
-
-            return Ok(result);
-        }
-        [Route("content")]
-        [HttpGet]
-        public IActionResult GetLawContents([FromQuery]LawSearchCondition condition)
-        {
-            if (condition == null) { return BadRequest("at least one condition"); }
-
-            
-            var service = new LawSearch(_companyId, int.Parse(_userId));
-            var lawContents = service.GetLawContents(condition);
-            var totalRecords = lawContents.Count == 0 ? 0 : lawContents[0].TotalRecords;
-
-            var result = new PagingModel<List<LawContentVM>>()
-            {
-                PageIndex = condition.PageIndex,
-                Data = lawContents,
-                TotalRecords = totalRecords,
-                TotalPages = (int)Math.Ceiling((float)totalRecords / (float)condition.PageSize)
-            };
-
-            return Ok(result);
-        }
-
         [Route("law")]
         [HttpGet]
         public IActionResult GetLawInfoKeyword([FromQuery]LawSearchCondition condition)
@@ -87,5 +45,49 @@ namespace ESHClouds.ApiCenter.Controllers
 
             return Ok(result);
         }
+       
+        [Route("content")]
+        [HttpGet]
+        public IActionResult GetLawContents([FromQuery]LawSearchCondition condition)
+        {
+            if (condition == null) { return BadRequest("at least one condition"); }
+
+            
+            var service = new LawSearch(_companyId, int.Parse(_userId));
+            var lawContents = service.GetLawContents(condition);
+            var totalRecords = lawContents.Count == 0 ? 0 : lawContents[0].TotalRecords;
+
+            var result = new PagingModel<List<LawContentVM>>()
+            {
+                PageIndex = condition.PageIndex,
+                Data = lawContents,
+                TotalRecords = totalRecords,
+                TotalPages = (int)Math.Ceiling((float)totalRecords / (float)condition.PageSize)
+            };
+
+            return Ok(result);
+        }
+
+        [Route("file")]
+        [HttpGet]
+        public IActionResult GetLawFiles([FromQuery]LawSearchCondition condition)
+        {
+            if (condition == null) { return BadRequest("at least one condition"); }
+
+            var service = new LawSearch(_companyId, int.Parse(_userId));
+            List<LawFileVM> lawFiles = service.GetLawFiles(condition);
+            var totalRecords = lawFiles.Count == 0 ? 0 : lawFiles[0].TotalRecords;
+
+            var result = new PagingModel<List<LawFileVM>>()
+            {
+                PageIndex = condition.PageIndex,
+                Data = lawFiles,
+                TotalRecords = totalRecords,
+                TotalPages = (int)Math.Ceiling((float)totalRecords / (float)condition.PageSize)
+            };
+
+            return Ok(result);
+        }
+
     }
 }
