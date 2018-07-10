@@ -14,6 +14,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using ESHClouds.ApiCenter.StoreHouse.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace ESHClouds.ApiCenter
 {
@@ -29,6 +31,19 @@ namespace ESHClouds.ApiCenter
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //This is Edward Testing
+            services.AddCors(options =>
+            {
+                // CorsPolicy 是自訂的 Policy 名稱
+                options.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.WithOrigins("http://localhost:4200")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials();
+                });
+            });        
+            
             services.AddMvc(config =>
                 {
                     // config.Filters.Add(new ExceptionFilter());
@@ -90,6 +105,7 @@ namespace ESHClouds.ApiCenter
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseAuthentication();
+            app.UseCors("CorsPolicy");
 
             if (env.IsDevelopment() || env.IsEnvironment("Local"))
             {
@@ -102,7 +118,7 @@ namespace ESHClouds.ApiCenter
 
             //app.UseHttpsRedirection();
             app.UseMvc();
-
+            
             //app.UseMvc(routes =>
             //{
             //    routes.MapRoute(

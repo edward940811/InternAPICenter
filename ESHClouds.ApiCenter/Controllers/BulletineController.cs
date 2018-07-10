@@ -1,48 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
+using System.IO;
 using System.Threading.Tasks;
-using ESHClouds.ApiCenter.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ESHClouds.ApiCenter.StoreHouse.Model;
+using Microsoft.AspNetCore.Cors;
+using System.Configuration;
+using System.Data.SqlClient;
+using ESHClouds.ApiCenter.Service;
+using Dapper;
+using ESHCloud.Bulletine;
+using ESHCloud.Bulletine.ViewModels;
 
 namespace ESHClouds.ApiCenter.Controllers
 {
     [Route("api/[controller]")]
-    public class BulletineController : BaseController
+    [EnableCors("CorsPolicy")]
+    [ApiController]
+    public class BulletineController : ControllerBase
     {
-        public BulletineController(ClaimsIdentity identity) : base(identity)
-        {
+        BulletineClass _service = new BulletineClass();
+           
+        public BulletineController()
+        {                     
         }
-
         [HttpGet]
-        public ActionResult<List<Bulletine>> Get()
+        public IEnumerable<BulletineViewModel> GetAll()
         {
-            return new List<Bulletine>();
+            IEnumerable<BulletineViewModel> List = _service.GetAll();
+            return _service.GetAll();
         }
-
-        [HttpGet("{id}")]
-        public Bulletine Get(int id)
+        [HttpGet("{id}", Name = "GetBulletine")]
+        public ActionResult<BulletineViewModel> GetById(int id)
         {
-            return new Bulletine();
+            //GetById(id);
+            return null;
         }
-
         [HttpPost]
-        public IActionResult Create([FromBody]Bulletine item)
+        public string Create(BulletineViewModel item)
         {
-            return Ok();
+            return _service.Create(item);
         }
-
         [HttpPut]
-        public IActionResult Update([FromBody]Bulletine item)
+        public string updateTodoItem(BulletineViewModel item)
         {
-            return Ok();
+            return _service.Update(item); 
         }
-
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public string deleteTodoItem(int id)
         {
-            return Ok();
+            return _service.Delete(id);
         }
     }
 }

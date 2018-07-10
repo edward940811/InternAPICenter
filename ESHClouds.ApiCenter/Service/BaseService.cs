@@ -12,6 +12,7 @@ namespace ESHClouds.ApiCenter.Service
     public class BaseService
     {
         public SqlConnection conn;
+        public SqlConnection todoListconn;
 
         public BaseService(IOptions<ConnectionStringsConfig> cfg)
         {
