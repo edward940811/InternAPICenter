@@ -1,13 +1,13 @@
-﻿using System;
+﻿using ESHClouds.ApiCenter.Models;
+using ESHClouds.ApiCenter.Models.Configs;
+using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using ESHClouds.ApiCenter.StoreHouse.Model;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 
-namespace ESHClouds.ApiCenter.Service
+namespace ESHClouds.ApiCenter.Services
 {
     public class BaseService
     {
@@ -16,7 +16,7 @@ namespace ESHClouds.ApiCenter.Service
 
         public BaseService(IOptions<ConnectionStringsConfig> cfg)
         {
-            conn = new SqlConnection(cfg.Value.AuthApiDatabase);
+            conn = new SqlConnection(cfg.Value.ESHCloudAuthConn);
         }
     }
 }

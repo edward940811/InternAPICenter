@@ -1,21 +1,25 @@
-﻿using System.Configuration;
-using ESHClouds.ApiCenter.Service;
-using ESHClouds.ApiCenter.StoreHouse.Model;
+﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using ESHClouds.ApiCenter.Helper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Risk.API.Helper;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using ConfigLibrary;
+using ESHClouds.ApiCenter.Models;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using ESHClouds.ApiCenter.StoreHouse.Model;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using ESHClouds.ApiCenter.Services;
+using ESHClouds.ApiCenter.Models.Configs;
 
 namespace ESHClouds.ApiCenter
 {
@@ -31,32 +35,14 @@ namespace ESHClouds.ApiCenter
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //This is Edward Testing
-            services.AddCors(options =>
-            {
-                // CorsPolicy 是自訂的 Policy 名稱
-                options.AddPolicy("CorsPolicy", policy =>
-                {
-                    policy.WithOrigins("http://localhost:4200")
-                          .AllowAnyHeader()
-                          .AllowAnyMethod()
-                          .AllowCredentials();
-                });
-            });        
-            
-            services.AddMvc(config =>
-                {
-                    // config.Filters.Add(new ExceptionFilter());
-                    // config.Filters.Add(new AuthorizationFilter());
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            //Authentication
             services.AddAuthentication(o =>
             {
                 o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddIdentityServerAuthentication(o =>
+            })
+            .AddIdentityServerAuthentication(o =>
             {
                 o.JwtBearerEvents = new JwtBearerEvents()
                 {
@@ -81,13 +67,10 @@ namespace ESHClouds.ApiCenter
             });
 
             services.Configure<ConnectionStringsConfig>
-                (Configuration.GetSection("ConnectionStrings"));
+               (Configuration.GetSection("ConnectionStrings"));
 
-            Encoding
-                .RegisterProvider(CodePagesEncodingProvider.Instance);
-            //Authorization handlers
-            //services.AddScoped<IAuthorizationHandler,CustomAuthorizationHandler>();
-            //Modules
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
             services.AddScoped<CompanyPlugInService, CompanyPlugInService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -99,15 +82,13 @@ namespace ESHClouds.ApiCenter
                     return identity;
                 }
             );
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseAuthentication();
-            app.UseCors("CorsPolicy");
-
-            if (env.IsDevelopment() || env.IsEnvironment("Local"))
+            if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -116,15 +97,8 @@ namespace ESHClouds.ApiCenter
                 app.UseHsts();
             }
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseMvc();
-            
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //        name: "default",
-            //        template: "{controller=Home}/{action=Index}/{id?}");
-            //});
         }
     }
 }
