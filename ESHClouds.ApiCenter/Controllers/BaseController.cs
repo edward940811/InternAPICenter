@@ -10,25 +10,31 @@ namespace ESHClouds.ApiCenter.Controllers
 {
     public class BaseController : ControllerBase
     {
-        protected string _companyId;
-        protected string _userId;
-        private ClaimsIdentity _identity;
+        protected string companyId;
+        protected string userId;
+        protected string moduleName;
+
+        private ClaimsIdentity identity;
         public BaseController(ClaimsIdentity identity)
         {
-            _identity = identity;
+            this.identity = identity;
 
-            if (_identity.Claims.Any())
+            if (this.identity.Claims.Any())
             {
 
                 try
                 {
-                    _companyId = _identity
+                    companyId = this.identity
                         .Claims
                         .First(item => item.Type == "CompanyId")
                         .Value;
-                    _userId = _identity
+                    userId = this.identity
                         .Claims
                         .First(item => item.Type == "UserId")
+                        .Value;
+                    moduleName = this.identity
+                        .Claims
+                        .First(item => item.Type == "ProductName")
                         .Value;
                 }
                 catch (Exception e)
