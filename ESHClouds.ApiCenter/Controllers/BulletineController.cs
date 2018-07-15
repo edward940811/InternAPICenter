@@ -11,43 +11,49 @@ using System.Data.SqlClient;
 using Dapper;
 using ESHCloud.Bulletine;
 using ESHCloud.Bulletine.ViewModels;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ESHClouds.ApiCenter.Controllers
 {
     [Route("api/[controller]")]
     [EnableCors("CorsPolicy")]
     [ApiController]
-    public class BulletineController : ControllerBase
+    [Authorize]
+    public class BulletineController : BaseController
     {
         BulletineClass _service = new BulletineClass();
 
-        public BulletineController()
+        public BulletineController(ClaimsIdentity identity) : base(identity)
         {
         }
 
         [HttpGet]
         public IEnumerable<BulletineViewModel> GetAll()
         {
-            IEnumerable<BulletineViewModel> list = _service.GetAll();
+            IEnumerable<BulletineViewModel> list = _service.GetAll(moduleId);
             return list;
         }
 
         [HttpGet("{id}")]
         public ActionResult<BulletineViewModel> GetById(int id)
         {
-            //GetById(id);
-            return null;
+            return _service.GetById(moduleId, id);
         }
 
         [HttpPost]
         public string Create(BulletineViewModel item)
         {
+            item.ModuleId = (int)moduleId;
+            item.CompanyId = companyId;
             return _service.Create(item);
         }
 
         [HttpPut]
         public string updateTodoItem(BulletineViewModel item)
         {
+            item.ModuleId = (int)moduleId;
+            item.CompanyId = companyId;
             return _service.Update(item);
         }
 

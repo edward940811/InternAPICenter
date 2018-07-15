@@ -31,7 +31,7 @@ namespace ESHClouds.ApiCenter.Controllers
             if (_identity.Claims.Any())
             {
                 var x = User;
-                return $"identity successful. module={moduleName} companyId={companyId} userId={userId}";
+                return $"identity successful. module={moduleId} companyId={companyId} userId={userId}";
             }
             return "invalid identity.";
         }

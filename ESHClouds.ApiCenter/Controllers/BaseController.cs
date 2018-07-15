@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ESHCloud.Base.Enum;
 
 namespace ESHClouds.ApiCenter.Controllers
 {
@@ -12,8 +13,8 @@ namespace ESHClouds.ApiCenter.Controllers
     {
         protected string companyId;
         protected string userId;
-        protected string moduleName;
-
+        protected ESHCloudModule moduleId;
+        
         private ClaimsIdentity identity;
         public BaseController(ClaimsIdentity identity)
         {
@@ -32,10 +33,12 @@ namespace ESHClouds.ApiCenter.Controllers
                         .Claims
                         .First(item => item.Type == "UserId")
                         .Value;
-                    moduleName = this.identity
+                    var moduleName = this.identity
                         .Claims
                         .First(item => item.Type == "ProductName")
                         .Value;
+                    moduleId = (ESHCloudModule)Enum.Parse(typeof(ESHCloudModule), moduleName);
+
                 }
                 catch (Exception e)
                 {

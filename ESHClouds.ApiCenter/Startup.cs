@@ -20,6 +20,7 @@ using System.Text;
 using Microsoft.AspNetCore.Http;
 using ESHClouds.ApiCenter.Services;
 using ESHClouds.ApiCenter.Models.Configs;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace ESHClouds.ApiCenter
 {
@@ -36,6 +37,18 @@ namespace ESHClouds.ApiCenter
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddCors(options =>
+            {
+                // CorsPolicy 是自訂的 Policy 名稱
+                options.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.WithOrigins("*")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials();
+                });
+            });
 
             services.AddAuthentication(o =>
             {
@@ -83,12 +96,18 @@ namespace ESHClouds.ApiCenter
                 }
             );
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "ESHCouds APIs", Version = "v1" });
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseAuthentication();
+            app.UseCors("CorsPolicy");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -97,6 +116,16 @@ namespace ESHClouds.ApiCenter
             {
                 app.UseHsts();
             }
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ESHCouds APIs");
+            });
 
             app.UseHttpsRedirection();
             app.UseMvc();
