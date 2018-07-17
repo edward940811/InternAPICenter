@@ -4,6 +4,16 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.1\Api.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp2.1\Api.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  
   <ItemGroup>
     <Folder Include="Models\Enums\" />
     <Folder Include="wwwroot\" />
@@ -13,10 +23,11 @@
     <PackageReference Include="ConfigLibrary" Version="1.0.25" />
     <PackageReference Include="Dapper" Version="1.50.5" />
     <PackageReference Include="ESHCloud.Base" Version="1.0.25" />
-    <PackageReference Include="ESHCloud.Bulletine" Version="1.0.25" />
+    <PackageReference Include="ESHCloud.Bulletine" Version="1.1.0" />
     <PackageReference Include="IdentityServer4" Version="2.2.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.0" />

@@ -21,6 +21,9 @@ using Microsoft.AspNetCore.Http;
 using ESHClouds.ApiCenter.Services;
 using ESHClouds.ApiCenter.Models.Configs;
 using Swashbuckle.AspNetCore.Swagger;
+using ESHClouds.ApiCenter.Filters;
+using System.IO;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace ESHClouds.ApiCenter
 {
@@ -99,6 +102,8 @@ namespace ESHClouds.ApiCenter
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "ESHCouds APIs", Version = "v1" });
+                c.OperationFilter<AddAuthTokenHeaderParameter>();
+                c.IncludeXmlComments(Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "Api.xml"));
             });
 
         }

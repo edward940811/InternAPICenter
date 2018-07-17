@@ -28,6 +28,10 @@ namespace ESHClouds.ApiCenter.Controllers
         {
         }
 
+        /// <summary>
+        /// 取得所有公佈欄事件
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<BulletineViewModel> GetAll()
         {
@@ -35,12 +39,22 @@ namespace ESHClouds.ApiCenter.Controllers
             return list;
         }
 
+        /// <summary>
+        /// 取得公佈欄事件
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public ActionResult<BulletineViewModel> GetById(int id)
         {
             return _service.GetById(moduleId, id);
         }
 
+        /// <summary>
+        /// 新增公佈欄事件
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         [HttpPost]
         public string Create(BulletineViewModel item)
         {
@@ -49,6 +63,11 @@ namespace ESHClouds.ApiCenter.Controllers
             return _service.Create(item);
         }
 
+        /// <summary>
+        /// 更新公佈欄事件
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         [HttpPut]
         public string updateTodoItem(BulletineViewModel item)
         {
@@ -57,6 +76,11 @@ namespace ESHClouds.ApiCenter.Controllers
             return _service.Update(item);
         }
 
+        /// <summary>
+        /// 刪除公佈欄事件
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public string deleteTodoItem(int id)
         {
